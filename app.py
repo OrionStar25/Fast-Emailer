@@ -3,20 +3,44 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from email.MIMEBase import MIMEBase
 from email import encoders
+
+
+def get_details():
+	fromaddr = raw_input("Your email address: ")
+	frompass = raw_input("Your PASSWORD: ")
+	msg = MIMEMultipart()
+	msg['Subject'] = raw_input("SUBJECT OF THE EMAIL: ")
+	msg['From'] = fromaddr
+
+	print("Hope you've added all the people you want to send email to in contacts.txt")
+
+	#send every contact email
+	contacts = open("contacts.txt")
+	for line in contacts:
+		#get names and email of contacts
+		name, toaddr = line.split()
+		msg['To'] = toaddr
+		#get customized message	
+		body = open("body.txt").read().replace("<name>", name)
+		msg = MIMEText(body)
+		send_email(fromaddr, frompass, toaddr, msg)
+		#used for attachment purpose
+		# msg.attach(MIMEText(body, 'plain'))
+
+
+def send_email(fromaddr, frompass, toaddr, msg):
+	server = smtplib.SMTP('smtp.gmail.com', 587)
+	server.starttls()
+	server.login(fromaddr, frompass)
+	text = msg.as_string()
+	server.sendmail(fromaddr, toaddr, text)
+	server.quit()	
  
-fromaddr = raw_input("Your email address: ")
-frompass = raw_input("Your PASSWORD: ")
-toaddr = raw_input("EMAIL ADDRESS YOU SEND TO: ")
+
+get_details() 
+print("Done! You can check your sent if you want :)")
  
-msg = MIMEMultipart()
- 
-msg['From'] = fromaddr
-msg['To'] = toaddr
-msg['Subject'] = raw_input("SUBJECT OF THE EMAIL: ")
- 
-body = raw_input("TEXT YOU WANT TO SEND: ")
- 
-msg.attach(MIMEText(body, 'plain'))
+
 
  
 # filename = "NAME OF THE FILE WITH ITS EXTENSION"
@@ -29,17 +53,8 @@ msg.attach(MIMEText(body, 'plain'))
  
 # msg.attach(part)
  
-server = smtplib.SMTP('smtp.gmail.com', 587)
-server.starttls()
-server.login(fromaddr, frompass)
-text = msg.as_string()
-server.sendmail(fromaddr, toaddr, text)
-server.quit()
 
-print("Done!")
 
-#add multiple contact lists
 #add attachments
-#import body from a text file
 #add signatures
 #add bcc, cc
