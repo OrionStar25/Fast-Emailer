@@ -1,9 +1,13 @@
-This tool helps you send same emails with minor customizations to multiple ids separately. 
-It works with Gmail accounts as sender.
+# Features
 
+- Send emails with minor customizations to multiple recepients separately.
+- Send multiple attachments.
 
-* Access for less secure apps has to been turned on.
-* git clone repo
-* cd into the directory
-* fill email body in body.txt and emails list in contacts.txt
-* python app.py
+# Setup Guide
+
+- Turn on access for less secure apps on Gmail.
+- `git clone` the repository
+- `cd` into the repository
+- Add email body in `app.py`.
+- Add any configurables in `contacts.py`
+- Run  `python app.py`
