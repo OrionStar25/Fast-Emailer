@@ -7,11 +7,7 @@ from email.MIMEText import MIMEText
 from email.MIMEBase import MIMEBase
 from email import encoders
 from contacts import *
-
-# Add body content here
-def get_body(name, age):
-	body = "Happy birthday " + name + "! You're " + age + " years old now."
-	return body
+from body import *
 
 
 def get_details():
@@ -26,7 +22,7 @@ def get_details():
 		msg['Subject'] = subject
 		msg['From'] = fromaddr	
 		msg['To'] = toaddr
-		msg.attach(MIMEText(get_body(name,age)))
+		msg.attach(MIMEText(message.format(Name=name, Age=age)))
 
 		for f in Files or []:
 		    with open(f, "rb") as fil:
